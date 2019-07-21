@@ -101,7 +101,9 @@ public class Controller implements
         }
         else{
             //we don't have a name, as google ads for it
-            new GetGAIDTask().execute();
+            //new GetGAIDTask().execute();
+            name = getDeviceName();
+            preferences.edit().putString("name",name).apply();
         }
 
         if (BuildConfig.DEBUG) {
@@ -208,13 +210,13 @@ public class Controller implements
 
         measuredData.get(measuredData.size()-1).addDevice(result.getDevice().getAddress(),result.getRssi());
 
-        Log.i(TAG,"Device Address: " + result.getDevice().getAddress() + " rssi: " + result.getRssi() + "\n");
+        if (BuildConfig.DEBUG)Log.i(TAG,"Device Address: " + result.getDevice().getAddress() + " rssi: " + result.getRssi() + "\n");
 
     }
 
     public void onLocationResults(Location location){
 
-        Log.i(TAG, "New location: " + location.getLatitude() +" , "+location.getLongitude());
+        if (BuildConfig.DEBUG)Log.i(TAG, "New location: " + location.getLatitude() +" , "+location.getLongitude());
 
         //if we have empty list, add container and return;
         if (measuredData.size() == 0){
@@ -260,7 +262,7 @@ public class Controller implements
 
         if (key.equals("name")){
             name = preferences.getString("name","na");
-            Log.i("BleService","acctual name updated: "+name);
+            if (BuildConfig.DEBUG) Log.i("BleService","acctual name updated: "+name);
         }
 
 
@@ -313,7 +315,7 @@ public class Controller implements
 
     public void scheduleUpdate() {
 
-        Log.i(TAG,"update sheduled every "+updatePeriodMS);
+        if (BuildConfig.DEBUG)Log.i(TAG,"update sheduled every "+updatePeriodMS);
 
         String extraData = "";
 
@@ -368,7 +370,7 @@ public class Controller implements
         @Override
         protected void onPostExecute(String s) {
 
-            Log.i(TAG,"got google ads id "+s);
+            if (BuildConfig.DEBUG)Log.i(TAG,"got google ads id "+s);
 
             name = sha1.getHash(s);
             preferences.edit().putString("name",name).apply();
