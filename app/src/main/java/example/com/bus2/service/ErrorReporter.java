@@ -1,11 +1,13 @@
 package example.com.bus2.service;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.os.StatFs;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +23,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import static example.com.bus2.service.BleScanService.SETTINGS_FOLDER;
+import static example.com.bus2.service.BleScanService.TAG;
 
 /**
  * Created by g_arkady on 13/09/18.
@@ -223,7 +226,8 @@ public class ErrorReporter implements Thread.UncaughtExceptionHandler {
         PreviousHandler.uncaughtException(t, e);
     }
 
-    private void SendErrorMail(Context _context, String ErrorContent) {
+    private void SendErrorMail(Activity _context, String ErrorContent) {
+
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
         String subject = "CrashReport_MailSubject";//_context.getResources().getString( R.string.CrashReport_MailSubject );
         String body = "CrashReport_MailBody" +//_context.getResources().getString( R.string.CrashReport_MailBody ) +
@@ -231,11 +235,12 @@ public class ErrorReporter implements Thread.UncaughtExceptionHandler {
                 ErrorContent +
                 "\n\n";
         sendIntent.putExtra(Intent.EXTRA_EMAIL,
-                new String[]{"postmaster@alocaly.com"});
+                new String[]{"arkady82@gmail.com"});
         sendIntent.putExtra(Intent.EXTRA_TEXT, body);
         sendIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
         sendIntent.setType("message/rfc822");
-        _context.startActivity(Intent.createChooser(sendIntent, "Title:"));
+        _context.startActivityForResult(Intent.createChooser(sendIntent, "Title:"),8);
+        //_context.startActivity(Intent.createChooser(sendIntent, "Title:"));
     }
 
     private void SaveAsFile(String ErrorContent) {
@@ -256,6 +261,7 @@ public class ErrorReporter implements Thread.UncaughtExceptionHandler {
         File dir = new File(FilePath + "/");
         // Try to create the files folder if it doesn't exist
         dir.mkdir();
+
         // Filter for ".stacktrace" files
         FilenameFilter filter = new FilenameFilter() {
             public boolean accept(File dir, String name) {
@@ -269,13 +275,15 @@ public class ErrorReporter implements Thread.UncaughtExceptionHandler {
         return GetErrorFileList().length > 0;
     }
 
-    public void CheckErrorAndSendMail(Context _context) {
+    public boolean CheckErrorAndSendMail(Activity _context) {
         try {
-            FilePath = _context.getFilesDir().getAbsolutePath();
+            //FilePath = _context.getFilesDir().getAbsolutePath() !!;
+            FilePath = Environment.getExternalStorageDirectory() + SETTINGS_FOLDER;
             if (bIsThereAnyErrorFile()) {
                 String WholeErrorText = "";
                 // on limite à N le nombre d'envois de rapports ( car trop lent )
                 String[] ErrorFileList = GetErrorFileList();
+
                 int curIndex = 0;
                 final int MaxSendMail = 5;
                 for (String curString : ErrorFileList) {
@@ -296,9 +304,13 @@ public class ErrorReporter implements Thread.UncaughtExceptionHandler {
                     curFile.delete();
                 }
                 SendErrorMail(_context, WholeErrorText);
+                return true;
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 }

@@ -82,6 +82,7 @@ public class ConfActivity extends AppCompatActivity {
         boolean dataSharing = sharedPreferences.getBoolean("data_sharing",false);
 
 
+
         if (researchParticipant == false){
             showLicenseAgreement();
             return;
@@ -89,6 +90,11 @@ public class ConfActivity extends AppCompatActivity {
 
         if (dataSharing == false){
             showDataSharingAgreement();
+            return;
+        }
+
+        boolean isErrorReport = ErrorReporter.getInstance().CheckErrorAndSendMail(this);
+        if (isErrorReport){
             return;
         }
 
@@ -130,7 +136,7 @@ public class ConfActivity extends AppCompatActivity {
         }
 
         //check for old crashesh ?
-        ErrorReporter.getInstance().CheckErrorAndSendMail(this);
+
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -154,6 +160,8 @@ public class ConfActivity extends AppCompatActivity {
 //        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 //        startActivity(intent);
 //    }
+
+
 
     public void showLicenseAgreement() {
 
