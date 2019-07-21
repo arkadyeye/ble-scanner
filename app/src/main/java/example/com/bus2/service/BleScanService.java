@@ -63,6 +63,9 @@ public class BleScanService extends Service {
     static final String EXTRA_STARTED_FROM_GEOFENCE_OFF = TAG +
             ".started_from_geofence_off";
 
+    public static final String EXTRA_STARTED_FROM_ACTIVITY_OFF = TAG +
+            ".started_from_activity_off";
+
     private Handler mServiceHandler;
 
 
@@ -121,9 +124,11 @@ public class BleScanService extends Service {
         boolean startedFromGeofenceOFF = intent.getBooleanExtra(EXTRA_STARTED_FROM_GEOFENCE_OFF,
                 false);
 
+        boolean startedFromActivityOff = intent.getBooleanExtra(EXTRA_STARTED_FROM_ACTIVITY_OFF,false);
+
         // We got here because the user decided to remove location updates from the notification.
         // of we exit the geofence that we are interested in
-        if (startedFromNotification || startedFromGeofenceOFF) {
+        if (startedFromNotification || startedFromGeofenceOFF || startedFromActivityOff) {
             cont.finish();
             stopSelf();
 
@@ -233,8 +238,8 @@ public class BleScanService extends Service {
 
 //                .addAction(R.drawable.ic_launcher_foreground, "Conf Activity",
 //                        activityPendingIntent)
-                .addAction(R.drawable.ic_launcher_background, "STOP",
-                        servicePendingIntent)
+//                .addAction(R.drawable.ic_launcher_background, "STOP",
+//                        servicePendingIntent)
                 .setContentText(getString(R.string.expl))
                 .setContentTitle(getString(R.string.bus))
                 .setOngoing(true)

@@ -82,15 +82,15 @@ public class SettingsActivity extends PreferenceActivity {
 
         public void initPreferences() {
 
-            Preference button_show_privacy_policy = findPreference("show_privacy_policy");
-            button_show_privacy_policy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    showLicenseAgreement();
-
-                    return true;
-                }
-            });
+//            Preference button_show_privacy_policy = findPreference("show_privacy_policy");
+//            button_show_privacy_policy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//                @Override
+//                public boolean onPreferenceClick(Preference preference) {
+//                    showLicenseAgreement();
+//
+//                    return true;
+//                }
+//            });
         }
 
         public void showLicenseAgreement() {

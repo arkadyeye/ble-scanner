@@ -25,13 +25,24 @@
         android:scrollbars="vertical"
         android:maxLines="30" />
 
-    <!--<Button-->
-        <!--android:id="@+id/checkEnd"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignBottom="@+id/PeripheralTextView"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_marginBottom="76dp"-->
-        <!--android:text="@string/exit" />-->
+    <Button
+        android:id="@+id/stopService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/PeripheralTextView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:onClick="onExitClick"
+        android:text="@string/exit" />
+
+    <Button
+        android:id="@+id/showAgrement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/PeripheralTextView"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:onClick="showLicenseAgreement"
+        android:text="@string/license_title" />
 
 </RelativeLayout>

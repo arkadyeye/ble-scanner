@@ -6,6 +6,7 @@
     <string name="prompt_email" translatable="false">Email</string>
     <string name="continue_btn">Continue</string>
     <string name="exit">I want to exit</string>
+    <string name="stop">stop</string>
     <string name="bus">Welcome to Ble Logger!</string>
     <string name="not_exist">User is not registered. Please fill our survey!</string>
     <string name="ble_pref">Insert BLE prefix</string>

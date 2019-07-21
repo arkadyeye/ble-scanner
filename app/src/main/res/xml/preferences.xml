@@ -31,9 +31,9 @@
         android:key="update_period"
         android:summary="%s"
         android:title="Server update period" />
-    <Preference
-        android:key="show_privacy_policy"
-        android:title="Show privacy policy" />
+    <!--<Preference-->
+        <!--android:key="show_privacy_policy"-->
+        <!--android:title="Show privacy policy" />-->
 
 
 

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
 
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
@@ -62,6 +63,8 @@ import java.util.Map;
 
 import example.com.bus2.R;
 import example.com.bus2.service.BleScanService;
+
+import static example.com.bus2.service.BleScanService.EXTRA_STARTED_FROM_ACTIVITY_OFF;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -263,6 +266,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
         super.onStop();
+    }
+
+    public void onExitClick(View view) {
+
+        Intent intent = new Intent(this, BleScanService.class);
+        intent.putExtra(EXTRA_STARTED_FROM_ACTIVITY_OFF, true);
+        startService(intent);
+        finish();
+
+    }
+
+    public void showLicenseAgreement(View view) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIconAttribute(android.R.attr.alertDialogIcon)
+                .setTitle(R.string.license_title)
+                .setMessage(R.string.license_content)
+                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
     }
 
 
