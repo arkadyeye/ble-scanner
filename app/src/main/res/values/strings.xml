@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">Ble Logger</string>
+    <string name="title_activity_login" translatable="false">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email" translatable="false">Email</string>
+    <string name="continue_btn">Continue</string>
+    <string name="exit">I want to exit</string>
+    <string name="bus">Welcome to Ble Logger!</string>
+    <string name="not_exist">User is not registered. Please fill our survey!</string>
+    <string name="ble_pref">Insert BLE prefix</string>
+    <string name="expl">Ble Logger is running</string>
+    <string name="survey">Survey</string>
+    <string name="end">Thank you for your time</string>
+    <string name="ble_en">BLE not enabled. Please enable it.</string>
+    <string name="co_en">To get BLE updates we need coarse location. Please enable it..</string>
+    <string name="agree">I agree to be a part of this research</string>
+    <string name="prompt_password" translatable="false">Password (optional)</string>
+    <string name="action_sign_in" translatable="false">Sign in or register</string>
+    <string name="action_sign_in_short" translatable="false">Sign in</string>
+    <string name="error_invalid_email" translatable="false">This email address is invalid</string>
+    <string name="error_invalid_password" translatable="false">This password is too short</string>
+    <string name="error_incorrect_password" translatable="false">This password is incorrect</string>
+    <string name="error_field_required" translatable="false">This field is required</string>
+    <string name="user_acceptance" translatable="false">User must accept research participation</string>
+    <string name="permission_rationale" translatable="false">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="license_title" translatable="false">License agreement</string>
+    <string name="license_content" translatable="false">Identifying the characteristics of tourist traffic and providing information for safe evacuation in times of emergency.\n\n
+    The aim of the study is to build an anonymous data collection model for users movement using the mobile device and without harming the it\'s performance.\nFor this purpose, the application will utilize Wi-Fi and Bluetooth connectivity, and store information about it, at the cloud.\n
+        The research is being conducted by researchers from Bar-Ilan University and Ariel University, in cooperation with the Ministry of Science and Technology and its funding.\n\n
+        Informed consent to participate in research that is not a clinical trial in humans:\n\n
+
+I declare that I agree to participate in the research as specified in this document and the following is known to me.\n\n
+
+That the head investigator Dr. Yuval Hadas received a permit from the Ministry of Science and Technology to carry out the study.\n\n
+
+That the study was conducted on the subject: identifying the characteristics of the movement of tourists and providing information for safe evacuation in times of emergency.\n\n
+
+That I am free to choose not to participate in the study, and that I am free to discontinue any time I participate in the research.\n\n
+
+That the study is anonymous and researchers can not identify the participants.\n\n
+
+That in the case of completing a questionnaire - I am entitled not to answer all or part of the questions in the questionnaire.\n\n
+
+I declare that I have been provided with detailed information about the study and in particular the following details:\n
+	a) Objectives\n
+	b) required of the participant in the research.\n\n
+
+I declare that I agree for sharing and storing my mobile device information like WiFi and Bluethooth connectivity data, location, and Android advertising ID.</string>
+    <string name="license_accept" translatable="false">I agree</string>
+    <string name="license_reject" translatable="false">Exit</string>
+
+    <string name="Sharing_title" translatable="false">Data sharing</string>
+    <string name="Sharing_content" translatable="false">I agree to share and store WiFi and Bluethooth connectivity data, location, and Android advertising ID,and save information locally on the device, and accept permission request if issued </string>
+
+
+</resources>

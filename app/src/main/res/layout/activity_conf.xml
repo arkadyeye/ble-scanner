@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="example.com.bus2.app.ConfActivity">
+
+    <CheckBox
+        android:id="@+id/checkResearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonContinue"
+        android:layout_alignParentStart="true"
+        android:text="@string/agree" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="14dp"
+        android:src="@mipmap/blue" />
+
+
+
+    <Button
+        android:id="@+id/buttonContinue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="69dp"
+        android:text="@string/continue_btn" />
+
+
+
+    <Button
+        android:id="@+id/link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonContinue"
+        android:layout_alignBottom="@+id/buttonContinue"
+        android:layout_alignParentEnd="true"
+        android:autoLink="web"
+        android:text="@string/survey" />
+
+    <!--<EditText-->
+        <!--android:id="@+id/pref"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignTop="@+id/imageView"-->
+        <!--android:layout_marginTop="12dp"-->
+        <!--android:ems="10"-->
+        <!--android:hint="@string/ble_pref" />-->
+
+</RelativeLayout>

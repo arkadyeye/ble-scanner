@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+
+    <EditTextPreference
+        android:key="name"
+        android:title="Name in Firebase"
+        android:summary="%s"
+        android:dialogTitle="name"
+        android:dialogMessage="name showing in firebase"
+        android:defaultValue="na" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="use_bt_filter"
+        android:title="Enable BT predefined filter" />
+
+    <example.com.bus2.app.AutoSummaryListPreference
+        android:defaultValue="105"
+        android:entries="@array/gps_mode"
+        android:entryValues="@array/gps_mode_values"
+        android:key="location_mode"
+        android:summary="%s"
+        android:title="location mode" />
+
+    <example.com.bus2.app.AutoSummaryListPreference
+        android:defaultValue="13"
+        android:entries="@array/update_perioud"
+        android:entryValues="@array/update_perioud"
+        android:key="update_period"
+        android:summary="%s"
+        android:title="Server update period" />
+    <Preference
+        android:key="show_privacy_policy"
+        android:title="Show privacy policy" />
+
+
+
+    <!--<Preference-->
+        <!--android:key="reset_users"-->
+        <!--android:title="Reset IDs" />-->
+
+
+
+
+</PreferenceScreen>

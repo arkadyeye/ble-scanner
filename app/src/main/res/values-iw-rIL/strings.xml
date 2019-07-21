@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ניווט אנונימי</string>
+    <string name="continue_btn">המשך</string>
+    <string name="ble_pref">הכנס תחילית בלוטוס</string>
+    <string name="survey">סקר</string>
+    <string name="end">תודה על השקעת הזמן</string>
+    <string name="agree">מסכים להיות חלק ממחקר זה</string>
+    <string name="exit">סיים פעילות אפליקציה</string>
+    <string name="bus">ברוכים הבאים לניווט אנונימי!</string>
+    <string name="not_exist">הנך משתמש לא רשום. מלא בבקשה את הסקר!</string>
+    <string name="expl">אפליקציית ניווט אנונימי פעילה</string>
+    <string name="ble_en">יש לתת הרשאה על מנת להפעיל בלוטוס.</string>
+    <string name="co_en">כדי להתעדכן יש לאפשר מיקום גס.</string>
+</resources>

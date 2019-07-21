@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "237308477734",
+    "firebase_url": "https://bus-anom.firebaseio.com",
+    "project_id": "bus-anom",
+    "storage_bucket": "bus-anom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237308477734:android:503583f28b22e9d0",
+        "android_client_info": {
+          "package_name": "example.com.bus2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "237308477734-ad1idigkfdsq9dek66r062anmi4207k1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6X97oJ9H0tlWDKUVIqAY-Wod0GWCsmVM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237308477734:android:5c897acd07111efd",
+        "android_client_info": {
+          "package_name": "todoapp.username.example.com.bus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "237308477734-ad1idigkfdsq9dek66r062anmi4207k1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6X97oJ9H0tlWDKUVIqAY-Wod0GWCsmVM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

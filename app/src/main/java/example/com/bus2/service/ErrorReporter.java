@@ -1,4 +1,4 @@
-package com.eyesight.watchdogsrv.tools;
+package example.com.bus2.service;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
+
+import static example.com.bus2.service.BleScanService.SETTINGS_FOLDER;
 
 /**
  * Created by g_arkady on 13/09/18.
@@ -240,7 +242,7 @@ public class ErrorReporter implements Thread.UncaughtExceptionHandler {
         try {
             Random generator = new Random();
             int random = generator.nextInt(99999);
-            File file = new File(Environment.getExternalStorageDirectory() + "/eyesight/stack-" + System.currentTimeMillis() + ".stacktrace");
+            File file = new File(Environment.getExternalStorageDirectory() + SETTINGS_FOLDER+"stack-" + System.currentTimeMillis() + ".stacktrace");
             //file.mkdirs();
             FileOutputStream trace = new FileOutputStream(file);
             trace.write(ErrorContent.getBytes());
