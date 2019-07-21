@@ -43,6 +43,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
     private static final long SCAN_PERIOD = 10000;
     private static final long MILS_TO_SEC = 1000;
     Date start = new Date();
+
+    private int titleClickCounter = 0;
 
     //---------------------
     private SharedPreferences sharedPreferences;
@@ -166,15 +169,26 @@ public class MainActivity extends AppCompatActivity {
 
 
         //allocate listener for the settings button
-        ImageButton settings = findViewById(R.id.setting_button);
+        //ImageButton settings = findViewById(R.id.setting_button);
 
-        settings.setOnClickListener(new View.OnClickListener() {
+        //Dr. Yuval Hadas asked to hide the settings button
+        TextView title = findViewById(R.id.title_text);
+
+        title.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
-                i.putExtra("FROM_PREVIEW", true);
-                startActivity(i);
+
+                titleClickCounter++;
+
+                if (titleClickCounter > 4){
+                    titleClickCounter = 0;
+                    Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                    i.putExtra("FROM_PREVIEW", true);
+                    startActivity(i);
+                }
+
+
             }
         });
 
