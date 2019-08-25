@@ -94,17 +94,23 @@ public class Controller implements
 
         updatePeriodMS = 1000*Integer.parseInt(preferences.getString("update_period","13"));
 
-        String preffName = preferences.getString("name","na");
-        if (preffName.equals("na") == false){
-            //meaning we already have a name
-            name = preffName;
-        }
-        else{
-            //we don't have a name, as google ads for it
-            //new GetGAIDTask().execute();
-            name = getDeviceName();
-            preferences.edit().putString("name",name).apply();
-        }
+
+//        String preffName = preferences.getString("name","na");
+        name = getDeviceName();
+        preferences.edit().putString("name",name).apply();
+
+
+//        String preffName = preferences.getString("name","na");
+//        if (preffName.equals("na") == false){
+//            //meaning we already have a name
+//            name = preffName;
+//        }
+//        else{
+//            //we don't have a name, as google ads for it
+//            //new GetGAIDTask().execute();
+//            name = getDeviceName();
+//            preferences.edit().putString("name",name).apply();
+//        }
 
         if (BuildConfig.DEBUG) {
             Log.i(TAG,"acctual name: "+name);
@@ -151,9 +157,9 @@ public class Controller implements
         mDatabase = FirebaseDatabase.getInstance().getReference();
         scheduleUpdate();
 
-        MyGeoFenceManager myGeoFenceManager = MyGeoFenceManager.getInstance(ctx);
-        myGeoFenceManager.setGeofencesList(settings.getGeofences());
-        myGeoFenceManager.scheduleLongTimerEvent(3000);
+//        MyGeoFenceManager myGeoFenceManager = MyGeoFenceManager.getInstance(ctx);
+//        myGeoFenceManager.setGeofencesList(settings.getGeofences());
+//        myGeoFenceManager.scheduleLongTimerEvent(3000);
 
 //        FunctionEveryHour scheduler = new FunctionEveryHour();
 //
@@ -300,10 +306,9 @@ public class Controller implements
 
     private String getDeviceName(){
         String mac = getMacAddr();
-        //Integer s = mac.hashCode();
-        //return s.toString();
 
-        String hash = sha1.getHash(mac);
+        //String hash = sha1.getHash(mac);
+        String hash = GFG.getHash(mac);
         return hash;
 
 
