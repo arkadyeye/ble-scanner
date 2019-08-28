@@ -39,8 +39,8 @@ public class GFG {
             // Convert message digest into hex value
             String hashtext = no.toString(16);
 
-            // Add preceding 0s to make it 32 bit
-            while (hashtext.length() < 32) {
+            // Add preceding 0s to make it 40(?) bit
+            while (hashtext.length() < 40) {
                 hashtext = "0" + hashtext;
             }
 
