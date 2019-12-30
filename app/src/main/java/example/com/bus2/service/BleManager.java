@@ -39,7 +39,7 @@ public class BleManager {
 
     //constructor
 
-    public BleManager(Context ctx, Controller listener, JSONArray filterMacs){
+    public BleManager(Context ctx, Controller listener,boolean useBtFilter, JSONArray filterMacs){
 
         Log.i(TAG,"BleScanner recreated");
 
@@ -57,10 +57,12 @@ public class BleManager {
                 .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)
                 .build();
 
-        if (filterMacs != null){
+
+        //create fillters
+        if (filterMacs != null) {
             //build the filter
             ScanFilter filter;
-            for (int i=0;i<filterMacs.length();i++){
+            for (int i = 0; i < filterMacs.length(); i++) {
                 try {
                     filter = new ScanFilter.Builder().setDeviceAddress(filterMacs.getString(i)).build();
                     filters.add(filter);
@@ -68,7 +70,10 @@ public class BleManager {
                     e.printStackTrace();
                 }
             }
+        }
 
+
+        if (useBtFilter){
             //start scan
             startFilteredScanning();
         }
@@ -100,6 +105,7 @@ public class BleManager {
     };
 
     public void startOverAllScanning() {
+        Log.i(TAG,"starting over all scan");
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -109,6 +115,7 @@ public class BleManager {
     }
 
     public void startFilteredScanning() {
+        Log.i(TAG,"starting filtered scan");
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -118,6 +125,7 @@ public class BleManager {
     }
 
     public void stopScanning() {
+        Log.i(TAG,"stopping scan");
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {

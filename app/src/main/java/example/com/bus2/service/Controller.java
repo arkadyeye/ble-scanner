@@ -128,7 +128,7 @@ public class Controller implements
             Log.e(TAG," error "+err+" in settings file ");
         }
 
-        bleScanner = new BleManager(ctx,this,settings.getMacs());
+        bleScanner = new BleManager(ctx,this,useBtFilter,settings.getMacs());
 
         locationManager = new KcgLocationManager(ctx,this,locationMode);
 
@@ -206,6 +206,14 @@ public class Controller implements
 
         preferences.unregisterOnSharedPreferenceChangeListener(this);
     }
+
+
+    /*
+        here is some logic:
+        we want to scan only for our macs.
+        But if we found one of them, we should switch to "no filter mode" for 50 scans.
+
+     */
 
 
     public void onBleScanResults(ScanResult result){
