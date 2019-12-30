@@ -60,6 +60,9 @@ public class BleScanService extends Service {
     public static final String EXTRA_STARTED_FROM_ACTIVITY_OFF = TAG +
             ".started_from_activity_off";
 
+    public static final String EXTRA_STARTED_FROM_ON_BOOT = TAG +
+            ".started_from_on_boot";
+
     private Handler mServiceHandler;
 
 
@@ -102,8 +105,6 @@ public class BleScanService extends Service {
         }
 
         cont = new Controller(this);
-
-
     }
 
     @Override
@@ -111,18 +112,21 @@ public class BleScanService extends Service {
         //init controller with context
 
 
-        Log.i(TAG, "Service started");
         boolean startedFromNotification = intent.getBooleanExtra(EXTRA_STARTED_FROM_NOTIFICATION,
                 false);
 
         boolean startedFromActivityOff = intent.getBooleanExtra(EXTRA_STARTED_FROM_ACTIVITY_OFF,false);
+
+        boolean startedFromOnBoot = intent.getBooleanExtra(EXTRA_STARTED_FROM_ON_BOOT,false);
 
         // We got here because the user decided to remove location updates from the notification.
 
         /*
         Later (30/12/19) note: Yuval asked that the app can not be closed from notification
          */
+
         if (startedFromNotification || startedFromActivityOff) {
+
             cont.finish();
             stopSelf();
 
@@ -133,6 +137,12 @@ public class BleScanService extends Service {
             }
 
             System.exit(0);
+        }
+
+        if (startedFromOnBoot){
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.notify(1, getNotification());
         }
 
         // Tells the system to not try to recreate the service after it has been killed.

@@ -59,9 +59,9 @@
             android:name=".service.BroadcastReceiverGlobal">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="wakeUpLongTimer" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.REBOOT"/>
             </intent-filter>
         </receiver>
 

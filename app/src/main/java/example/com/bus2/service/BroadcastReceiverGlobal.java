@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
+import static example.com.bus2.service.BleScanService.EXTRA_STARTED_FROM_ON_BOOT;
 import static example.com.bus2.service.BleScanService.TAG;
 
 /**
@@ -23,10 +24,15 @@ public class BroadcastReceiverGlobal extends BroadcastReceiver {
 
         if (intent.getAction().equalsIgnoreCase(Intent.ACTION_BOOT_COMPLETED)) {
 
+            Intent startIntent = new Intent(context, BleScanService.class);
+            startIntent.putExtra(EXTRA_STARTED_FROM_ON_BOOT,true);
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(new Intent(context, BleScanService.class));
+                Log.i(TAG,"starting foreground service");
+                context.startForegroundService(startIntent);
             } else {
-                context.startService(new Intent(context, BleScanService.class));
+                Log.i(TAG,"starting NON-foreground service");
+                context.startService(startIntent);
             }
 
 //            Intent serviceIntent=new Intent(context,BleScanService.class);
