@@ -37,7 +37,6 @@ public class SettingsManager {
 
     private Context ctx;
 
-    private JSONArray geofences = null;
     private JSONArray bleMacs = null;
 
 
@@ -92,14 +91,6 @@ public class SettingsManager {
         return bleMacs;
     }
 
-    public JSONArray getGeofences(){
-        return geofences;
-    }
-
-
-
-
-
     ///////////// private functions ///////////////////
 
     /**
@@ -150,10 +141,6 @@ public class SettingsManager {
     private int parseSettings(String data) {
         try {
             JSONObject jsonObj = new JSONObject(data);
-
-
-            //get Geofences array
-            geofences = jsonObj.getJSONArray("geofences");
 
             //get Macs array
             bleMacs = jsonObj.getJSONArray("blemacs");

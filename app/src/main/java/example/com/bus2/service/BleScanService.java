@@ -33,7 +33,7 @@ import example.com.bus2.app.MainActivity;
  * Created by Arkady G on 13/06/19.
  *
  * The main intent of this service, is to scan BLE devices in background
- * and from time to time send the data to some remove server
+ * and from time to time send the data to some remote server / firebase
  */
 
 public class BleScanService extends Service {
@@ -56,12 +56,6 @@ public class BleScanService extends Service {
 
     private static final String EXTRA_STARTED_FROM_NOTIFICATION = TAG +
             ".started_from_notification";
-
-    static final String EXTRA_STARTED_FROM_GEOFENCE = TAG +
-            ".started_from_geofence";
-
-    static final String EXTRA_STARTED_FROM_GEOFENCE_OFF = TAG +
-            ".started_from_geofence_off";
 
     public static final String EXTRA_STARTED_FROM_ACTIVITY_OFF = TAG +
             ".started_from_activity_off";
@@ -121,14 +115,14 @@ public class BleScanService extends Service {
         boolean startedFromNotification = intent.getBooleanExtra(EXTRA_STARTED_FROM_NOTIFICATION,
                 false);
 
-        boolean startedFromGeofenceOFF = intent.getBooleanExtra(EXTRA_STARTED_FROM_GEOFENCE_OFF,
-                false);
-
         boolean startedFromActivityOff = intent.getBooleanExtra(EXTRA_STARTED_FROM_ACTIVITY_OFF,false);
 
         // We got here because the user decided to remove location updates from the notification.
-        // of we exit the geofence that we are interested in
-        if (startedFromNotification || startedFromGeofenceOFF || startedFromActivityOff) {
+
+        /*
+        Later (30/12/19) note: Yuval asked that the app can not be closed from notification
+         */
+        if (startedFromNotification || startedFromActivityOff) {
             cont.finish();
             stopSelf();
 
@@ -141,25 +135,9 @@ public class BleScanService extends Service {
             System.exit(0);
         }
 
-        boolean startedFromGeofence = intent.getBooleanExtra(EXTRA_STARTED_FROM_GEOFENCE,
-                false);
-
-        if (startedFromGeofence){
-
-            //this should be called only if the service is not running at all, how to know this ?
-            if (isBound == false && serviceIsRunningInForeground(this) == false) {
-                Log.i(TAG, "Starting foreground service");
-                cont = new Controller(this);
-                startForeground(NOTIFICATION_ID, getNotification());
-            }
-        }
-
-
-
-
         // Tells the system to not try to recreate the service after it has been killed.
         return START_NOT_STICKY;
-        //return  START_STICKY;
+
     }
 
     @Override
@@ -170,7 +148,7 @@ public class BleScanService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // Called when a client (MainActivity in case of this sample) comes to the foreground
+        // Called when a client (MainActivity in our case) comes to the foreground
         // and binds with this service. The service should cease to be a foreground service
         // when that happens.
         Log.i(TAG, "in onBind()");
@@ -230,6 +208,12 @@ public class BleScanService extends Service {
                 new Intent(this, ConfActivity.class), 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+
+                /*
+                Yuval (the manager of the project ?) asked to remove buttons from notofication.
+                 */
+
+
 //                .addAction(R.drawable.ic_launch, getString(R.string.launch_activity),
 //                        activityPendingIntent)
 //                .addAction(R.drawable.ic_cancel, getString(R.string.remove_location_updates),
@@ -240,6 +224,8 @@ public class BleScanService extends Service {
 //                        activityPendingIntent)
 //                .addAction(R.drawable.ic_launcher_background, "STOP",
 //                        servicePendingIntent)
+
+
                 .setContentText(getString(R.string.expl))
                 .setContentTitle(getString(R.string.bus))
                 .setOngoing(true)
@@ -262,36 +248,33 @@ public class BleScanService extends Service {
         }
     }
 
-    public String getLastScan(){
-        return "bla bla bla...";
-    }
 
-    public boolean serviceIsRunningInForeground(Context context) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(
-                Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(
-                Integer.MAX_VALUE)) {
-            if (getClass().getName().equals(service.service.getClassName())) {
-                if (service.foreground) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean serviceIsRunning(Context context) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-
-            if (getClass().getName().equals(service.service.getClassName())) {
-                //if (service.foreground) {
-                    return true;
-                //}
-            }
-        }
-        return false;
-    }
+//    public boolean serviceIsRunningInForeground(Context context) {
+//        ActivityManager manager = (ActivityManager) context.getSystemService(
+//                Context.ACTIVITY_SERVICE);
+//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(
+//                Integer.MAX_VALUE)) {
+//            if (getClass().getName().equals(service.service.getClassName())) {
+//                if (service.foreground) {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
+//
+//    public boolean serviceIsRunning(Context context) {
+//        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+//
+//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+//
+//            if (getClass().getName().equals(service.service.getClassName())) {
+//                //if (service.foreground) {
+//                    return true;
+//                //}
+//            }
+//        }
+//        return false;
+//    }
 
 }

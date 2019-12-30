@@ -20,8 +20,8 @@ import static example.com.bus2.service.BleScanService.TAG;
  *
  * This class should take care about all the location data
  *
- * Looks like google advise to use fuzed location.
- * hopefully. it will consume less battery, than just trigering the gps every second
+ * Looks like google advise to use fuzzed location.
+ * hopefully. it will consume less battery, than just triggering the gps every second
  */
 
 public class KcgLocationManager {
