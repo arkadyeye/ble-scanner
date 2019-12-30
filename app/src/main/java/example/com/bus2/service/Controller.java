@@ -25,10 +25,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import example.com.bus2.BuildConfig;
@@ -66,7 +69,13 @@ public class Controller implements
 
     private Handler mHandler = new Handler();
     private int updatePeriodMS = 13*1000;// 13 sec
+    private long fullScanTimeOutMS = 5*60*1000; // 5 minutes
     private boolean continueUpdating = true;
+
+    boolean useBtFilter = true;
+    private boolean macsFilterEnabled = true;
+    private long overallScanStart = 0;
+    private Handler handler = new Handler();
 
 
 //    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
@@ -75,6 +84,8 @@ public class Controller implements
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private DatabaseHelper databaseHelper;
     private ArrayList<MeasurementContainer> measuredData = new ArrayList<>();
+
+    private HashMap<String,String> macs;
 
     private SharedPreferences preferences;
     private String name = "no name yet";
@@ -88,11 +99,13 @@ public class Controller implements
 
         preferences = PreferenceManager.getDefaultSharedPreferences(ctx);
 
-        boolean useBtFilter = preferences.getBoolean("use_bt_filter",false);
+        useBtFilter = preferences.getBoolean("use_bt_filter",true);
 
         int locationMode = Integer.parseInt(preferences.getString("location_mode","102"));
 
         updatePeriodMS = 1000*Integer.parseInt(preferences.getString("update_period","13"));
+
+        fullScanTimeOutMS = 1000*60*Integer.parseInt(preferences.getString("full_scan_timeout","5"));
 
 
 //        String preffName = preferences.getString("name","na");
@@ -119,13 +132,20 @@ public class Controller implements
             Log.i(TAG,"update_perioud: "+updatePeriodMS);
         }
 
-
-
-
         settings = new SettingsManager(ctx);
         int err = settings.init();
         if (err != 0){
             Log.e(TAG," error "+err+" in settings file ");
+        }
+
+        //create a hash map of the macs
+        macs = new HashMap<>();
+        for (int i=0;i<settings.getMacs().length();i++){
+            try {
+                macs.put(settings.getMacs().getString(i),"");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         bleScanner = new BleManager(ctx,this,useBtFilter,settings.getMacs());
@@ -156,39 +176,7 @@ public class Controller implements
         //currentUser = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         scheduleUpdate();
-
-//        MyGeoFenceManager myGeoFenceManager = MyGeoFenceManager.getInstance(ctx);
-//        myGeoFenceManager.setGeofencesList(settings.getGeofences());
-//        myGeoFenceManager.scheduleLongTimerEvent(3000);
-
-//        FunctionEveryHour scheduler = new FunctionEveryHour();
-//
-//        ctx.registerReceiver(scheduler , new IntentFilter(WAKE_UP_AFTER_ONE_HOUR));
     }
-
-
-
-//    // broadcastreceiver to handle your work
-//    class FunctionEveryHour extends BroadcastReceiver {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//
-//            Log.i(TAG,"got long event broadcast");
-//
-//            // if phone is lock use PowerManager to acquire lock
-//
-//            // your code to handle operations every one hour...
-//
-//            // after that call again your method to schedule again
-//            // if you have boolean if the user doesnt want to continue
-//            // create a Preference or store it and retrieve it here like
-//
-//            //boolean mContinue = getUserPreference(USER_CONTINUE_OR_NOT);//
-//
-//            MyGeoFenceManager myGeoFenceManager = MyGeoFenceManager.getInstance(ctx);
-//            myGeoFenceManager.scheduleLongTimerEvent(3000);
-//        }
-//    }
 
 
     //functions
@@ -211,9 +199,31 @@ public class Controller implements
     /*
         here is some logic:
         we want to scan only for our macs.
-        But if we found one of them, we should switch to "no filter mode" for 50 scans.
+        But if we found one of them, we should switch to "no filter mode" for 5 minutes.
+
+        so, for each Mac I get, i'm asking if it's from our.
+        if do: swithching for full scan, for a 5 minutes
+        if not: do nothing
+
+        each scan result check if 5 minutes already passed
+        this 5 minutes should be in settings
 
      */
+
+    private Runnable stopOverAllFilter = new Runnable() {
+        @Override
+        public void run() {
+            if (System.currentTimeMillis() > overallScanStart+fullScanTimeOutMS){
+                bleScanner.enablePredefinedFilter(true);
+                macsFilterEnabled = false;
+                overallScanStart = 0;
+            }
+            else{
+                handler.postDelayed(this,60*1000);
+            }
+
+        }
+    };
 
 
     public void onBleScanResults(ScanResult result){
@@ -223,6 +233,19 @@ public class Controller implements
         }
 
         measuredData.get(measuredData.size()-1).addDevice(result.getDevice().getAddress(),result.getRssi());
+
+        if (useBtFilter && macs.containsKey(result.getDevice().getAddress())){
+
+            overallScanStart = System.currentTimeMillis();
+
+            if (macsFilterEnabled){
+                //switch to over all scan, and prevent more switching if not needed
+                macsFilterEnabled = false;
+                bleScanner.enablePredefinedFilter(false);
+                handler.postDelayed(stopOverAllFilter,fullScanTimeOutMS);
+            }
+        }
+
 
         if (BuildConfig.DEBUG)Log.i(TAG,"Device Address: " + result.getDevice().getAddress() + " rssi: " + result.getRssi() + "\n");
 
@@ -261,7 +284,7 @@ public class Controller implements
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         if (key.equals("use_bt_filter")){
-            boolean useBtFilter = sharedPreferences.getBoolean("use_bt_filter",false);
+            boolean useBtFilter = sharedPreferences.getBoolean("use_bt_filter",true);
             bleScanner.enablePredefinedFilter(useBtFilter);
         }
 
@@ -272,6 +295,10 @@ public class Controller implements
 
         if (key.equals("update_period")){
             updatePeriodMS = 1000*Integer.parseInt(preferences.getString("update_period","13"));
+        }
+
+        if (key.equals("full_scan_timeout")){
+            updatePeriodMS = 60*1000*Integer.parseInt(preferences.getString("full_scan_timeout","5"));
         }
 
         if (key.equals("name")){

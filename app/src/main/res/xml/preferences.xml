@@ -14,7 +14,7 @@
         android:defaultValue="na" />
 
     <SwitchPreference
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="use_bt_filter"
         android:title="Enable BT predefined filter" />
 
@@ -32,10 +32,16 @@
         android:entryValues="@array/update_perioud"
         android:key="update_period"
         android:summary="%s"
-        android:title="Server update period" />
-    <!--<Preference-->
-        <!--android:key="show_privacy_policy"-->
-        <!--android:title="Show privacy policy" />-->
+        android:title="Server update period (Sec)" />
+
+    <example.com.bus2.app.AutoSummaryListPreference
+        android:defaultValue="5"
+        android:entries="@array/timeout_perioud"
+        android:entryValues="@array/timeout_perioud"
+        android:key="full_scan_timeout"
+        android:summary="%s"
+        android:title="Full Scan timeout (Min)" />
+
 
 
 
