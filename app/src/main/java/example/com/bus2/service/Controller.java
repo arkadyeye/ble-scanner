@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.preference.EditTextPreference;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
@@ -35,7 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import example.com.bus2.BuildConfig;
-import example.com.bus2.app.ConfActivity;
 
 import static example.com.bus2.service.BleScanService.ACTION_BROADCAST;
 import static example.com.bus2.service.BleScanService.EXTRA_LOCATION;
@@ -78,6 +75,8 @@ public class Controller implements
     private Handler handler = new Handler();
 
 
+
+
 //    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
 
     private FirebaseAuth mAuth;
@@ -85,7 +84,7 @@ public class Controller implements
     private DatabaseHelper databaseHelper;
     private ArrayList<MeasurementContainer> measuredData = new ArrayList<>();
 
-    private HashMap<String,String> macs;
+    private TagsContainer tags;
 
     private SharedPreferences preferences;
     private String name = "no name yet";
@@ -139,16 +138,9 @@ public class Controller implements
         }
 
         //create a hash map of the macs
-        macs = new HashMap<>();
-        for (int i=0;i<settings.getMacs().length();i++){
-            try {
-                macs.put(settings.getMacs().getString(i),"");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        tags = settings.getBles();
 
-        bleScanner = new BleManager(ctx,this,useBtFilter,settings.getMacs());
+        bleScanner = new BleManager(ctx,this,useBtFilter,settings.getBles());
 
         locationManager = new KcgLocationManager(ctx,this,locationMode);
 
@@ -234,7 +226,9 @@ public class Controller implements
 
         measuredData.get(measuredData.size()-1).addDevice(result.getDevice().getAddress(),result.getRssi());
 
-        if (useBtFilter && macs.containsKey(result.getDevice().getAddress())){
+        BleTag listedTag = tags.getBleTag(result.getDevice().getAddress());
+
+        if (useBtFilter && listedTag != null){
 
             overallScanStart = System.currentTimeMillis();
 
@@ -357,17 +351,17 @@ public class Controller implements
 
         if (BuildConfig.DEBUG)Log.i(TAG,"update sheduled every "+updatePeriodMS);
 
+
+        //prepeare short text data
         String extraData = "";
-
         for (MeasurementContainer data : measuredData){
-
             //send data to firebase
             data.send(mDatabase,name);
-
             //prepare data
             extraData += data.toString();
         }
 
+        //here we are updating main activity
         Intent intent = new Intent(ACTION_BROADCAST);
         intent.putExtra(EXTRA_LOCATION, extraData);
 

@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion "23.0.3"
     defaultConfig {
         applicationId "example.com.bus2"
         minSdkVersion 23
-        targetSdkVersion 29
-        versionCode 20
-        versionName "7.13"
+        targetSdkVersion 30
+        versionCode 21
+        versionName "7.14"
 
         project.ext.set("archivesBaseName", "BleScan-"+versionName);
 
@@ -40,6 +40,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-appindexing:8.4.0'
     implementation "com.google.android.gms:play-services-location:15.0.1"
     //implementation 'com.google.android.gms:play-services-ads:7.8.0'
+
+    implementation 'org.osmdroid:osmdroid-android:6.1.8'
 }
 
 

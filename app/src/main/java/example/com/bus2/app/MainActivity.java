@@ -2,13 +2,7 @@ package example.com.bus2.app;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.NotificationManager;
 
-import android.app.PendingIntent;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.le.ScanCallback;
-import android.bluetooth.le.ScanResult;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -18,57 +12,53 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Build;
-import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.net.NetworkInterface;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.CustomZoomButtonsController;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
+
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import example.com.bus2.R;
 import example.com.bus2.service.BleScanService;
+import example.com.bus2.service.BleTag;
+import example.com.bus2.service.SettingsManager;
+import example.com.bus2.service.TagsContainer;
 
 import static example.com.bus2.service.BleScanService.EXTRA_STARTED_FROM_ACTIVITY_OFF;
 
 
 public class MainActivity extends AppCompatActivity {
-
 
 
     String name = "";
@@ -80,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int SCAN_HALT = 3000;
     private static final long SCAN_PERIOD = 10000;
     private static final long MILS_TO_SEC = 1000;
+
+    private static final float BT_MARKER_SIZE = 8.0f;
+
     Date start = new Date();
 
     private int titleClickCounter = 0;
@@ -94,6 +87,15 @@ public class MainActivity extends AppCompatActivity {
 
     // Tracks the bound state of the service.
     private boolean mBound = false;
+
+    //map holder
+    private MapView map = null;
+    private Marker meMarker = null;
+    private FusedLocationProviderClient fusedLocationClient;
+
+    private TagsContainer tags;
+    private Marker[] tagsMarkers;
+
 
     // Monitors the state of the connection to the service.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -120,6 +122,12 @@ public class MainActivity extends AppCompatActivity {
 
         myReceiver = new MyReceiver();
 
+        //load tags with their location
+        //note: ugly style. the same is loaded in the service too
+        SettingsManager settings = new SettingsManager(this);
+        settings.init();
+        tags = settings.getBles();
+
         setContentView(R.layout.activity_main);
 
         //add title bar
@@ -131,6 +139,61 @@ public class MainActivity extends AppCompatActivity {
         layoutParams.gravity = Gravity.TOP;
 
         addContentView(layout, layoutParams);
+
+        Context ctx = getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+
+        map = (MapView) findViewById(R.id.map);
+        map.setTileSource(TileSourceFactory.MAPNIK);
+
+        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
+        map.setMultiTouchControls(true);
+
+        //center the map on predefined point. probably it should be my last known location ?
+        //ewen better, we should add floating button, that will move me to my location
+        IMapController mapController = map.getController();
+        mapController.setZoom(18.0);
+        GeoPoint startPoint = new GeoPoint(32.067916, 34.843414);//bar ilan 32.067916, 34.843414
+        mapController.setCenter(startPoint);
+        meMarker = new Marker(map);
+        meMarker.setPosition(startPoint);
+        meMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.getOverlays().add(meMarker);
+
+        //add an array of markers coresponding to tags
+        GeoPoint btPoint;
+        BleTag tag;
+
+        tagsMarkers = new Marker[tags.size()];
+        for (int i=0;i<tagsMarkers.length;i++){
+            tagsMarkers[i] = new Marker(map);
+        }
+
+        for (int i = 0; i < tags.size(); i++) {
+            tag = tags.get(i);
+
+//            Log.i("ark", i + " ) tag added : " + tag.lat + "," + tag.lon + "," + tag.alt);
+
+            btPoint = new GeoPoint(tag.lat, tag.lon, tag.alt);
+
+            tagsMarkers[i].setPosition(btPoint);
+            tagsMarkers[i].setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            tagsMarkers[i].setTitle(tag.name);
+
+            Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.bt_icon, null);
+            Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
+            Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (BT_MARKER_SIZE * getResources().getDisplayMetrics().density), (int) (BT_MARKER_SIZE * getResources().getDisplayMetrics().density), true));
+            tagsMarkers[i].setIcon(dr);
+            tagsMarkers[i].setAlpha(0.2f);//0..1f
+
+            map.getOverlays().add(tagsMarkers[i]);
+        }
+
+        map.invalidate();
+
 
         //-------------------------------
 
@@ -149,26 +212,20 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
 
-
         //create notification
 
         //notification
 
 
-
-
-        peripheralTextView = (TextView) findViewById(R.id.PeripheralTextView);
-        peripheralTextView.setMovementMethod(new ScrollingMovementMethod());
+//        peripheralTextView = (TextView) findViewById(R.id.PeripheralTextView);
+//        peripheralTextView.setMovementMethod(new ScrollingMovementMethod());
 
     }
-
 
 
     @Override
     protected void onStart() {
         super.onStart();
-
-
 
 
         //allocate listener for the settings button
@@ -184,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
 
                 titleClickCounter++;
 
-                if (titleClickCounter > 4){
+                if (titleClickCounter > 4) {
                     titleClickCounter = 0;
                     Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                     i.putExtra("FROM_PREVIEW", true);
@@ -210,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
 
         //the first thing to check is a license agreement
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        map.onResume();
 
 
 //
@@ -251,8 +309,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(myReceiver);
         super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(myReceiver);
+        map.onPause();
+
     }
 
     @Override
@@ -267,6 +327,36 @@ public class MainActivity extends AppCompatActivity {
 
         super.onStop();
     }
+
+    public void onLocateClick(View view) {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            IMapController mapController = map.getController();
+                            mapController.setZoom(18.0);
+                            GeoPoint startPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                            mapController.setCenter(startPoint);
+
+                            map.getOverlays().remove(meMarker);
+
+                            meMarker = new Marker(map);
+                            meMarker.setPosition(startPoint);
+                            meMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                            map.getOverlays().add(meMarker);
+                        }
+                    }
+                });
+    }
+
+
 
     public void onExitClick(View view) {
 
@@ -294,6 +384,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -301,9 +393,38 @@ public class MainActivity extends AppCompatActivity {
             long seconds=(new Date().getTime()-start.getTime())/MILS_TO_SEC;
             String x="Time from start: "+Long.toString(seconds)+" seconds.\n";
 
-            String lastScan = intent.getExtras().getString(BleScanService.EXTRA_LOCATION);
+            String lastScanStr = intent.getExtras().getString(BleScanService.EXTRA_LOCATION);
 
-            peripheralTextView.setText(x+lastScan);
+            Log.i("ark","lastScan: "+lastScanStr);
+
+            hideAllMarkers();
+
+            try {
+                JSONObject lastScan = new JSONObject(lastScanStr);
+                JSONArray devices = lastScan.getJSONArray("bt");
+                for (int i=0;i<devices.length();i++){
+                    JSONObject dev = devices.getJSONObject(i);
+                    String mac = dev.getString("mac");
+                    int rssi = dev.getInt("rssi");
+
+                    int index = tags.getBleTagIndex(mac);
+                    if (index != -1){
+                        tagsMarkers[index].setAlpha(1);
+                    }
+
+                }
+
+                map.invalidate();
+
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            //TODO: reformat the json, so it will be easier to read
+//            peripheralTextView.setText(x+lastScan);
         }
     }
 
@@ -311,207 +432,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     //------------- tools -----------------
+    private void hideAllMarkers(){
+        for (int i=0;i<tagsMarkers.length;i++){
+            tagsMarkers[i].setAlpha(0.2f);
+        }
+
+    }
 
 
 
 }
-
-/*
-
- //scan without GPS feature
-    private ScanCallback leScanCallback_noGPS = new ScanCallback() {
-        public void onScanResult(int callbackType, ScanResult result) {
-            String ad = result.getDevice().getAddress();
-            if (!ad.startsWith(pref))//check for desired prefix
-                    return;
-
-            if (!devicesDiscovered.containsKey(ad)) {//check if the BLE is in the list
-                    devicesDiscovered.put(ad,String.valueOf(result.getRssi()));
-            }
-        }
-    };
-
-
-    //terminate when checked
-    public void terminate() {
-
-        btScanning = false;
-
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                btScanner.stopScan(condition);
-            }
-        });
-        this.Exit_app();
-    }
-
-
-    private void DataDelivey(){
-        //timestamp
-        //peripheralTextView.setText("");//erase screen for next data
-        Date cur_date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
-        String format = simpleDateFormat.format(cur_date);
-        String s =  devicesDiscovered.toString();
-        String GPS_parmas="";
-        if(this.gps) {
-            GPS_parmas = longitude+";"+latitude;
-            format = format + ";" + GPS_parmas.replace(".","_");
-        }
-        //check for network availability
-        if (!isNetworkAvailable()){
-            //Use sqlite
-            databaseHelper.addParticipant(format,name,s);
-        }
-        else{
-            ArrayList<String> people = databaseHelper.getAllParticipants();
-            for(String p: people){
-                String[] args=p.split(",");
-                //send the data to firebase database
-                mDatabase.child(args[0]).child(args[1]).setValue(args[2]);
-            }
-            SQLiteDatabase db =databaseHelper.getWritableDatabase();
-            //delete the data
-            databaseHelper.onUpgrade(db,1,2);
-            //add new data
-            mDatabase.child(name).child(format).setValue(s);
-
-
-            //some printout
-            long seconds=(cur_date.getTime()-start.getTime())/MILS_TO_SEC;
-            String x="Time from start: "+Long.toString(seconds)+" seconds.\n";
-            peripheralTextView.setText(x);
-            try {
-                x = people.get(-1);
-                peripheralTextView.append(x);//print out last row
-            }
-            catch(Exception e){
-                peripheralTextView.append(format+","+s);//print last scan
-            }
-
-        }
-    }
-    //check if internet online
-    private boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    private void Exit_app(){
-        //toast for end
-        Toast.makeText(getApplicationContext(),
-                R.string.end, Toast.LENGTH_LONG).show();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (notificationManager2!=null)
-                notificationManager2.cancel(NOTIFICATION_ID);
-        }else {
-            if (notificationManger!=null)
-                notificationManger.cancel(NOTIFICATION_ID);
-        }
-        finish();
-        System.exit(0);
-    }
-
-        @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
-    }
-
-     // Device scan callback.
-    private ScanCallback leScanCallback = new ScanCallback() {
-        @Override
-        public void onScanResult(int callbackType, ScanResult result) {
-            String ad = result.getDevice().getAddress();
-            if (!ad.startsWith(pref))//check for desired prefix
-                    return;
-
-            if (!devicesDiscovered.containsKey(ad)) {//check if the BLE is in the list
-                //add location
-                LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(getApplicationContext(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    devicesDiscovered.put(ad,String.valueOf(result.getRssi())+";null;null");
-                }
-                else{
-                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    try {
-                        String longitude = String.valueOf(location.getLongitude());
-                        String latitude = String.valueOf(location.getLatitude());
-                        devicesDiscovered.put(ad,String.valueOf(result.getRssi())+";"+longitude+";"+latitude);
-                    }
-                    catch(NullPointerException e){
-                        devicesDiscovered.put(ad,String.valueOf(result.getRssi())+";null;null");
-                    }
-                }
-
-            }
-        }
-    };
-
-    //        Intent intent = new Intent(this, ConfActivity.class);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 01, intent, PendingIntent.FLAG_ONE_SHOT);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            CharSequence name = "try";
-//            String description = "notifications";
-//            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-//            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-//            channel.setDescription(description);
-//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(channel);
-//            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-//                    .setSmallIcon(R.mipmap.bus)
-//                    .setContentTitle(getString(R.string.bus))
-//                    .setContentText(getString(R.string.expl))
-//                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//            notificationManager2 = NotificationManagerCompat.from(this);
-//
-//            // notificationId is a unique int for each notification that you must define
-//            notificationManager2.notify(NOTIFICATION_ID, mBuilder.build());
-//        } else {
-//            Notification.Builder builder = new Notification.Builder(getApplicationContext());
-//            builder.setContentTitle(getString(R.string.bus));
-//            builder.setContentText(getString(R.string.expl));
-//            builder.setContentIntent(pendingIntent);
-//            //builder.setTicker("Fancy Notification");
-//            builder.setSmallIcon(R.mipmap.bus);
-//            builder.setAutoCancel(true);
-//            builder.setPriority(Notification.PRIORITY_DEFAULT);
-//            Notification notification = builder.build();
-//            notificationManger =
-//                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//            notificationManger.notify(NOTIFICATION_ID, notification);
-//        }
-
- //auth
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser==null){
-            mAuth.signInAnonymously()
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d("Anon", "signInAnonymously:success");
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w("Anon", "signInAnonymously:failure", task.getException());
-
-                            }
-
-                            // ...
-                        }
-                    });
-
-        }
-        currentUser = mAuth.getCurrentUser();
-
-
- */

@@ -13,6 +13,7 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import static example.com.bus2.service.BleScanService.TAG;
 
 /**
  * Created by Arkady G on 13/06/19.
- *
+ * <p>
  * this class should scan BLE devices upon request
  */
 
@@ -39,16 +40,15 @@ public class BleManager {
 
     //constructor
 
-    public BleManager(Context ctx, Controller listener,boolean useBtFilter, JSONArray filterMacs){
+    public BleManager(Context ctx, Controller listener, boolean useBtFilter, TagsContainer filterMacs) {
 
-        Log.i(TAG,"BleScanner recreated");
+        Log.i(TAG, "BleScanner recreated");
 
         this.listener = listener;
 
-        btManager = (BluetoothManager)ctx.getSystemService(Context.BLUETOOTH_SERVICE);
+        btManager = (BluetoothManager) ctx.getSystemService(Context.BLUETOOTH_SERVICE);
         btAdapter = btManager.getAdapter();
         btScanner = btAdapter.getBluetoothLeScanner();
-
 
 
         settings = new ScanSettings.Builder()
@@ -60,37 +60,33 @@ public class BleManager {
 
         //create fillters
         if (filterMacs != null) {
+
             //build the filter
+
             ScanFilter filter;
-            for (int i = 0; i < filterMacs.length(); i++) {
-                try {
-                    filter = new ScanFilter.Builder().setDeviceAddress(filterMacs.getString(i)).build();
-                    filters.add(filter);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            for (int i = 0; i < filterMacs.size(); i++) {
+                filter = new ScanFilter.Builder().setDeviceAddress(filterMacs.get(i).mac).build();
+                filters.add(filter);
             }
         }
 
 
-        if (useBtFilter){
+        if (useBtFilter) {
             //start scan
             startFilteredScanning();
-        }
-        else{
+        } else {
             startOverAllScanning();
         }
     }
 
     //functions
-    public void enablePredefinedFilter(boolean isEnabled){
+    public void enablePredefinedFilter(boolean isEnabled) {
 
         stopScanning();
 
-        if (isEnabled){
+        if (isEnabled) {
             startFilteredScanning();
-        }
-        else{
+        } else {
             startOverAllScanning();
         }
 
@@ -105,7 +101,7 @@ public class BleManager {
     };
 
     public void startOverAllScanning() {
-        Log.i(TAG,"starting over all scan");
+        Log.i(TAG, "starting over all scan");
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -115,17 +111,17 @@ public class BleManager {
     }
 
     public void startFilteredScanning() {
-        Log.i(TAG,"starting filtered scan");
+        Log.i(TAG, "starting filtered scan");
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                btScanner.startScan(filters,settings,leScanCallback);
+                btScanner.startScan(filters, settings, leScanCallback);
             }
         });
     }
 
     public void stopScanning() {
-        Log.i(TAG,"stopping scan");
+        Log.i(TAG, "stopping scan");
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -133,8 +129,6 @@ public class BleManager {
             }
         });
     }
-
-
 
 
 }

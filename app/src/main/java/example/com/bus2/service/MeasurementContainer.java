@@ -1,8 +1,13 @@
 package example.com.bus2.service;
 
 import android.location.Location;
+import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,28 +32,27 @@ public class MeasurementContainer {
 
     //setters
 
-    public void addDevice(String macAddress, int valueDB){
+    public void addDevice(String macAddress, int valueDB) {
         if (devicesDiscovered.containsKey(macAddress)) {//check if the BLE is in the list
             //if we already have this address, we shoud update it to a maximal measured db
             int oldDB = devicesDiscovered.get(macAddress);
-            devicesDiscovered.put(macAddress, Math.max(oldDB,valueDB));
-        }
-        else{
+            devicesDiscovered.put(macAddress, Math.max(oldDB, valueDB));
+        } else {
             //devicesDiscovered.put(macAddress,String.valueOf(valueDB));
-            devicesDiscovered.put(macAddress,valueDB);
+            devicesDiscovered.put(macAddress, valueDB);
         }
     }
 
-    public void setLatLon(Location location){
+    public void setLatLon(Location location) {
         this.location = location;
     }
 
-    public boolean isEmptyLocation(){
+    public boolean isEmptyLocation() {
         if (this.location == null) return true;
         return false;
     }
 
-    public boolean isSameLocation(Location location){
+    public boolean isSameLocation(Location location) {
         if (this.location == null) return false;
 
         //distance is in meters
@@ -58,41 +62,63 @@ public class MeasurementContainer {
     }
 
 
-
     //sender
 
-    public void send(DatabaseReference dbReference, String name){
+    public void send(DatabaseReference dbReference, String name) {
 
         String GPS_parmas;
 
-        if (location == null ){
+        if (location == null) {
             GPS_parmas = "null;null";
-        }
-        else{
-            GPS_parmas = location.getLatitude()+";"+location.getLongitude();
+        } else {
+            GPS_parmas = location.getLatitude() + ";" + location.getLongitude();
         }
 
         Date cur_date = new Date();
         String format = simpleDateFormat.format(cur_date);
-        format = format + ";" + GPS_parmas.replace(".","_");
+        format = format + ";" + GPS_parmas.replace(".", "_");
 
         String data = devicesDiscovered.toString();
 
         dbReference.child(name).child(format).setValue(data);
     }
 
-    public String toString(){
+    public String toString() {
 
-        String macsList = devicesDiscovered.toString();
-        macsList = macsList.replace(",","\n");
+        //acctualy, I want to pass a json, to be shown on the map
 
-        if (location == null){
-            return "[ nowhere ]\n" + macsList;
+        // String macsList = devicesDiscovered.toString();
+
+        JSONObject result = new JSONObject();
+        JSONArray devices = new JSONArray();
+
+
+        try {
+            for (Map.Entry<String, Integer> pair : devicesDiscovered.entrySet()) {
+                JSONObject dev = new JSONObject();
+                dev.put("mac", pair.getKey());
+                dev.put("rssi", pair.getValue());
+                devices.put(dev);
+
+            }
+
+            result.put("bt", devices);
+
+//        Log.i("ark","device discovered: "+macsList);
+
+//        macsList = macsList.replace(",","\n");
+
+
+            if (location != null) {
+                result.put("lat", location.getLatitude());
+                result.put("lon", location.getLongitude());
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        else{
-            return "[ "+location.getLatitude()+","+location.getLongitude()+" ]\n" + macsList;
-        }
 
+        return result.toString();
 
     }
 

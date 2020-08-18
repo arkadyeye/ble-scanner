@@ -37,7 +37,7 @@ public class SettingsManager {
 
     private Context ctx;
 
-    private JSONArray bleMacs = null;
+    private TagsContainer bles = null;
 
 
     //constructor
@@ -87,8 +87,8 @@ public class SettingsManager {
 
     ///////////// getters ////////////////
 
-    public JSONArray getMacs(){
-        return bleMacs;
+    public TagsContainer getBles(){
+        return bles;
     }
 
     ///////////// private functions ///////////////////
@@ -140,10 +140,10 @@ public class SettingsManager {
 
     private int parseSettings(String data) {
         try {
-            JSONObject jsonObj = new JSONObject(data);
 
+            JSONObject jsonObj = new JSONObject(data);
             //get Macs array
-            bleMacs = jsonObj.getJSONArray("blemacs");
+            bles = new TagsContainer(jsonObj);
 
         } catch (JSONException e) {
             e.printStackTrace();
