@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
@@ -7,8 +8,8 @@ android {
         applicationId "example.com.bus2"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 21
-        versionName "7.14"
+        versionCode 22
+        versionName "7.15"
 
         project.ext.set("archivesBaseName", "BleScan-"+versionName);
 
@@ -28,6 +29,8 @@ android {
 dependencies {
 
     //noinspection GradleCompatible
+    implementation 'org.osmdroid:osmdroid-android:6.1.8'
+    implementation 'net.mabboud:android-tone-player:0.3'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
@@ -41,11 +44,10 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:15.0.1"
     //implementation 'com.google.android.gms:play-services-ads:7.8.0'
 
-    implementation 'org.osmdroid:osmdroid-android:6.1.8'
+
 }
 
 
 
 
 
-apply plugin: 'com.google.gms.google-services'

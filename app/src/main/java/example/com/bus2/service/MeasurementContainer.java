@@ -122,5 +122,18 @@ public class MeasurementContainer {
 
     }
 
+    public int getMaxRssi(){
+
+        int max = -120;
+
+        for (Map.Entry<String, Integer> pair : devicesDiscovered.entrySet()) {
+            if (pair.getValue() > max){
+                max = pair.getValue();
+            }
+        }
+
+        return max;
+    }
+
 
 }

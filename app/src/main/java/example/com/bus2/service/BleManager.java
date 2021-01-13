@@ -53,7 +53,7 @@ public class BleManager {
 
         settings = new ScanSettings.Builder()
                 .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
-                //.setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+//                .setScanMode(ScanSettings.MATCH_MODE_AGGRESSIVE)
                 .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)
                 .build();
 

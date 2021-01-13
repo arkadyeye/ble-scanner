@@ -23,6 +23,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import net.mabboud.android_tone_player.ContinuousBuzzer;
+
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -45,7 +47,7 @@ import static example.com.bus2.service.BleScanService.TAG;
  * this class controls dataflow from ble scanner to data storage
  *
  *
- * Few modules shoub be controlled by this calss
+ * Few modules shoud be controlled by this class
  *
  * 1) BT scanner
  * 2) GPS accurate location
@@ -74,8 +76,7 @@ public class Controller implements
     private long overallScanStart = 0;
     private Handler handler = new Handler();
 
-
-
+    private ContinuousBuzzer continuousBuzzer = new ContinuousBuzzer();
 
 //    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
 
@@ -91,6 +92,8 @@ public class Controller implements
 
     //public static final boolean DEBUG = true;
 
+//    private BeepHelper beeper;
+
     //controller
     public Controller(Context ctx){
 
@@ -105,6 +108,11 @@ public class Controller implements
         updatePeriodMS = 1000*Integer.parseInt(preferences.getString("update_period","13"));
 
         fullScanTimeOutMS = 1000*60*Integer.parseInt(preferences.getString("full_scan_timeout","5"));
+
+        // volume values are from 0-100
+        continuousBuzzer.setVolume(30);
+        continuousBuzzer.setToneFreqInHz(900);
+
 
 
 //        String preffName = preferences.getString("name","na");
@@ -179,6 +187,8 @@ public class Controller implements
 
         bleScanner.stopScanning();
 
+        continuousBuzzer.stop();
+
         if (locationManager != null){
             locationManager.stopLocationUpdate();
             locationManager = null;
@@ -219,6 +229,9 @@ public class Controller implements
 
 
     public void onBleScanResults(ScanResult result){
+
+        Log.i("ark","controller: "+result.toString());
+
         if (measuredData.size() == 0){
             //means the list is empty
             measuredData.add(new MeasurementContainer());
@@ -347,6 +360,7 @@ public class Controller implements
 
     //---------- update timer -----------
 
+
     public void scheduleUpdate() {
 
         if (BuildConfig.DEBUG)Log.i(TAG,"update sheduled every "+updatePeriodMS);
@@ -354,12 +368,37 @@ public class Controller implements
 
         //prepeare short text data
         String extraData = "";
+        int maxRssi = -120;
         for (MeasurementContainer data : measuredData){
             //send data to firebase
             data.send(mDatabase,name);
             //prepare data
             extraData += data.toString();
+
+            maxRssi = Math.max(maxRssi,data.getMaxRssi());
         }
+
+
+        //calc maxRssi with beep time
+        if (maxRssi > -90){
+            continuousBuzzer.setPauseTimeInMs(1000); //1000 is low, 100 is very hi
+            if (maxRssi > -80){continuousBuzzer.setPauseTimeInMs(700);}
+            if (maxRssi > -70){continuousBuzzer.setPauseTimeInMs(400);}
+            if (maxRssi > -60){continuousBuzzer.setPauseTimeInMs(200);}
+            if (maxRssi > -50){continuousBuzzer.setPauseTimeInMs(100);}
+
+
+
+            //a mojno play mnogo raz ?
+            continuousBuzzer.setPausePeriodSeconds(0.1);//0.1 sound good vs 1000ms delay
+            continuousBuzzer.play();
+
+        }
+        else{
+            continuousBuzzer.stop();
+        }
+
+
 
         //here we are updating main activity
         Intent intent = new Intent(ACTION_BROADCAST);

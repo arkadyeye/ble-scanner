@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
     private Marker[] tagsMarkers;
 
 
+
     // Monitors the state of the connection to the service.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -399,29 +400,29 @@ public class MainActivity extends AppCompatActivity {
 
             hideAllMarkers();
 
-            try {
-                JSONObject lastScan = new JSONObject(lastScanStr);
-                JSONArray devices = lastScan.getJSONArray("bt");
-                for (int i=0;i<devices.length();i++){
-                    JSONObject dev = devices.getJSONObject(i);
-                    String mac = dev.getString("mac");
-                    int rssi = dev.getInt("rssi");
+            if (lastScanStr.length() > 0){
+                try {
+                    JSONObject lastScan = new JSONObject(lastScanStr);
+                    JSONArray devices = lastScan.getJSONArray("bt");
+                    for (int i=0;i<devices.length();i++){
+                        JSONObject dev = devices.getJSONObject(i);
+                        String mac = dev.getString("mac");
+                        int rssi = dev.getInt("rssi");
 
-                    int index = tags.getBleTagIndex(mac);
-                    if (index != -1){
-                        tagsMarkers[index].setAlpha(1);
+                        int index = tags.getBleTagIndex(mac);
+                        if (index != -1){
+                            tagsMarkers[index].setAlpha(1);
+                        }
+
                     }
 
+                    map.invalidate();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
-                map.invalidate();
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+
+
 
             //TODO: reformat the json, so it will be easier to read
 //            peripheralTextView.setText(x+lastScan);
