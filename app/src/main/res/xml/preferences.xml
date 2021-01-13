@@ -18,6 +18,15 @@
         android:key="use_bt_filter"
         android:title="Enable BT predefined filter" />
 
+
+    <example.com.bus2.app.AutoSummaryListPreference
+        android:defaultValue="0"
+        android:entries="@array/bt_scan_mode"
+        android:entryValues="@array/bt_scan_mode_values"
+        android:key="bt_scan_mode"
+        android:summary="%s"
+        android:title="bt scan mode" />
+
     <example.com.bus2.app.AutoSummaryListPreference
         android:defaultValue="105"
         android:entries="@array/gps_mode"

@@ -40,7 +40,7 @@ public class BleManager {
 
     //constructor
 
-    public BleManager(Context ctx, Controller listener, boolean useBtFilter, TagsContainer filterMacs) {
+    public BleManager(Context ctx, Controller listener, boolean useBtFilter, TagsContainer filterMacs, int scanMode) {
 
         Log.i(TAG, "BleScanner recreated");
 
@@ -52,8 +52,10 @@ public class BleManager {
 
 
         settings = new ScanSettings.Builder()
-                .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
+                .setScanMode(scanMode) // 0 SCAN_MODE_LOW_POWER , 1 - BALANCED  , 2 - LOW_LATENCY
+//                .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
 //                .setScanMode(ScanSettings.MATCH_MODE_AGGRESSIVE)
+
                 .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)
                 .build();
 

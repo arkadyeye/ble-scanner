@@ -12,8 +12,24 @@
         <item>102</item>
         <item>100</item>
     </string-array>
+    <string-array name="bt_scan_mode">
+        <item>Low power</item>
+        <item>Balanced</item>
+        <item>Low latency</item>
+    </string-array>
+    <string-array name="bt_scan_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+
+
+
+
 
     <string-array name="update_perioud">
+        <item>1</item>
         <item>5</item>
         <item>10</item>
         <item>13</item>

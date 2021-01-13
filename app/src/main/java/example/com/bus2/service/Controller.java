@@ -103,6 +103,8 @@ public class Controller implements
 
         useBtFilter = preferences.getBoolean("use_bt_filter",true);
 
+        int btScanMode = Integer.parseInt(preferences.getString("bt_scan_mode","0"));
+
         int locationMode = Integer.parseInt(preferences.getString("location_mode","102"));
 
         updatePeriodMS = 1000*Integer.parseInt(preferences.getString("update_period","13"));
@@ -135,6 +137,7 @@ public class Controller implements
         if (BuildConfig.DEBUG) {
             Log.i(TAG,"acctual name: "+name);
             Log.i(TAG,"useBtFilter: "+useBtFilter);
+            Log.i(TAG,"bt_scan_mode: "+btScanMode);
             Log.i(TAG,"location_mode: "+locationMode);
             Log.i(TAG,"update_perioud: "+updatePeriodMS);
         }
@@ -148,7 +151,7 @@ public class Controller implements
         //create a hash map of the macs
         tags = settings.getBles();
 
-        bleScanner = new BleManager(ctx,this,useBtFilter,settings.getBles());
+        bleScanner = new BleManager(ctx,this,useBtFilter,settings.getBles(), btScanMode);
 
         locationManager = new KcgLocationManager(ctx,this,locationMode);
 
@@ -381,6 +384,12 @@ public class Controller implements
 
         //calc maxRssi with beep time
         if (maxRssi > -90){
+
+//            if (maxRssi >-40){maxRssi = -40;}
+
+//            double totalDelay = ((maxRssi +40)/-50)*1900 + 100;
+//            continuousBuzzer.setPauseTimeInMs((int)totalDelay);
+
             continuousBuzzer.setPauseTimeInMs(1000); //1000 is low, 100 is very hi
             if (maxRssi > -80){continuousBuzzer.setPauseTimeInMs(700);}
             if (maxRssi > -70){continuousBuzzer.setPauseTimeInMs(400);}
