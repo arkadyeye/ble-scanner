@@ -35,10 +35,10 @@
         android:gravity="left"
         android:layout_height="fill_parent"
         android:layout_width="wrap_content"
-        android:maxLines="8"
-        android:lines="8"
-        android:layout_marginTop="10dp"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." />
+        android:maxLines="12"
+        android:lines="12"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp" />
 
 
     <android.support.v7.widget.LinearLayoutCompat

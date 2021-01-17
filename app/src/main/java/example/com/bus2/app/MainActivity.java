@@ -398,9 +398,10 @@ public class MainActivity extends AppCompatActivity {
             String x="Time from start: "+Long.toString(seconds)+" seconds.\n";
 
             String lastScanStr = intent.getExtras().getString(BleScanService.EXTRA_LOCATION);
+//            lastScanStr = lastScanStr.replace(",","\n");
 
             Log.i("ark","lastScan: "+lastScanStr);
-            btLog.setText(lastScanStr);
+
 
             hideAllMarkers();
 
@@ -408,23 +409,48 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONObject lastScan = new JSONObject(lastScanStr);
                     JSONArray devices = lastScan.getJSONArray("bt");
+
+                    //2 arrays for text view
+                    int[] rssi_arr = new int[devices.length()];
+                    String[] mac_arr = new String[devices.length()];
+
                     for (int i=0;i<devices.length();i++){
                         JSONObject dev = devices.getJSONObject(i);
                         String mac = dev.getString("mac");
                         int rssi = dev.getInt("rssi");
 
                         int index = tags.getBleTagIndex(mac);
+//                        tagsMarkers[index].setTitle(rssi+" db");
                         if (index != -1){
                             tagsMarkers[index].setAlpha(1);
                         }
+                        rssi_arr[i] = rssi;
+                        mac_arr[i] = mac;
+
+                        //how can i form a representative text of the last scan ?
+                        // sorted by rssi ?
+                        //the simplest way do 2 arrays, and kind of sort them by findSort
 
                     }
+
+                    //sort arrays by rssi
+                    sortBtResults(rssi_arr,mac_arr);
+
+                    //sent text to activity
+                    String btText = "";
+                    for (int i=0;i<rssi_arr.length;i++){
+                        btText = btText +mac_arr[i]+" : "+rssi_arr[i]+"\n";
+                    }
+
+                    btLog.setText(btText);
 
                     map.invalidate();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+
+
 
 
 
@@ -443,6 +469,51 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    private String convertScan2Presentable(String lastScan){
+        if (lastScan.length()>8){
+            String ans  = lastScan.substring(8);
+            ans = ans.replace("},{","\n");
+            ans = ans.replace("}],","\n");
+
+            return ans;
+        }
+        return lastScan;
+
+    }
+
+    private void sortBtResults(int[] rssi,String[] macs){
+
+        int maxRssi = -200;
+        int maxRssiIndex = 0;
+
+        int tmpRssi;
+        String tmpMac;
+
+        for (int i = 0;i<rssi.length;i++){
+            maxRssi = rssi[i];
+            maxRssiIndex = i;
+            for (int j = i+1;j<rssi.length;j++){
+                if (rssi[j]>maxRssi){
+                    maxRssi = rssi[j];
+                    maxRssiIndex = j;
+                }
+            }
+            //swap values
+            tmpRssi = rssi[maxRssiIndex];
+            tmpMac = macs[maxRssiIndex];
+
+            rssi[maxRssiIndex] = rssi[i];
+            macs[maxRssiIndex] = macs[i];
+
+            rssi[i] = tmpRssi;
+            macs[i] = tmpMac;
+
+        }
+
+    }
+
+
 
 
 

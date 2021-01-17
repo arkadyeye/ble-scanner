@@ -92,7 +92,6 @@ public class MeasurementContainer {
         JSONObject result = new JSONObject();
         JSONArray devices = new JSONArray();
 
-
         try {
             for (Map.Entry<String, Integer> pair : devicesDiscovered.entrySet()) {
                 JSONObject dev = new JSONObject();
@@ -134,6 +133,7 @@ public class MeasurementContainer {
 
         return max;
     }
+
 
 
 }
