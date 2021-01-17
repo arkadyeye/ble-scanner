@@ -348,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
                         if (location != null) {
                             // Logic to handle location object
                             IMapController mapController = map.getController();
-                            mapController.setZoom(18.0);
+//                            mapController.setZoom(18.0);
                             GeoPoint startPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
                             mapController.setCenter(startPoint);
 
@@ -469,18 +469,6 @@ public class MainActivity extends AppCompatActivity {
             tagsMarkers[i].setAlpha(0.2f);
             tagsMarkers[i].setTitle(tags.get(i).name);
         }
-
-    }
-
-    private String convertScan2Presentable(String lastScan){
-        if (lastScan.length()>8){
-            String ans  = lastScan.substring(8);
-            ans = ans.replace("},{","\n");
-            ans = ans.replace("}],","\n");
-
-            return ans;
-        }
-        return lastScan;
 
     }
 
