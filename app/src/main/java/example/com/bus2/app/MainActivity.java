@@ -23,6 +23,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -96,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
     private TagsContainer tags;
     private Marker[] tagsMarkers;
 
+    private TextView btLog;
+
 
 
     // Monitors the state of the connection to the service.
@@ -130,6 +133,9 @@ public class MainActivity extends AppCompatActivity {
         tags = settings.getBles();
 
         setContentView(R.layout.activity_main);
+
+        btLog = (TextView) findViewById(R.id.btLogView);
+//        btLog.setMovementMethod(new ScrollingMovementMethod());
 
         //add title bar
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -384,9 +390,6 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-
-
-
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -397,6 +400,7 @@ public class MainActivity extends AppCompatActivity {
             String lastScanStr = intent.getExtras().getString(BleScanService.EXTRA_LOCATION);
 
             Log.i("ark","lastScan: "+lastScanStr);
+            btLog.setText(lastScanStr);
 
             hideAllMarkers();
 
