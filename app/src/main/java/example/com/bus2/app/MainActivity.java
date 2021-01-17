@@ -420,9 +420,10 @@ public class MainActivity extends AppCompatActivity {
                         int rssi = dev.getInt("rssi");
 
                         int index = tags.getBleTagIndex(mac);
-//                        tagsMarkers[index].setTitle(rssi+" db");
+
                         if (index != -1){
                             tagsMarkers[index].setAlpha(1);
+                            tagsMarkers[index].setTitle(tagsMarkers[index].getTitle() +"\n"+rssi+" db");
                         }
                         rssi_arr[i] = rssi;
                         mac_arr[i] = mac;
@@ -466,6 +467,7 @@ public class MainActivity extends AppCompatActivity {
     private void hideAllMarkers(){
         for (int i=0;i<tagsMarkers.length;i++){
             tagsMarkers[i].setAlpha(0.2f);
+            tagsMarkers[i].setTitle(tags.get(i).name);
         }
 
     }
