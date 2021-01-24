@@ -29,6 +29,8 @@ public class MeasurementContainer {
     private Map<String, Integer> devicesDiscovered = new HashMap<>();
     private Location location = null;
 
+    private int maxValue = -200;
+
 
     //setters
 
@@ -40,6 +42,12 @@ public class MeasurementContainer {
         } else {
             //devicesDiscovered.put(macAddress,String.valueOf(valueDB));
             devicesDiscovered.put(macAddress, valueDB);
+        }
+
+        //new functionality is added. beeping on a max device.
+        //for mee, it looks logical to add here a max comperanse, instead of searching it each time max requested
+        if (maxValue < valueDB){
+            maxValue = valueDB;
         }
     }
 
@@ -121,7 +129,7 @@ public class MeasurementContainer {
 
     }
 
-    public int getMaxRssi(){
+    public int getMaxRssi_old(){
 
         int max = -120;
 
@@ -132,6 +140,10 @@ public class MeasurementContainer {
         }
 
         return max;
+    }
+
+    public int getMaxRssi(){
+        return maxValue;
     }
 
 

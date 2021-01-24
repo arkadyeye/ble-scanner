@@ -8,8 +8,8 @@ android {
         applicationId "example.com.bus2"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 24
-        versionName "7.17"
+        versionCode 26
+        versionName "7.19"
 
         project.ext.set("archivesBaseName", "BleScan-"+versionName);
 

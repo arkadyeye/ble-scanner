@@ -256,6 +256,42 @@ public class Controller implements
             }
         }
 
+        //new functionality. beep on device signal strength
+        int maxRssi = measuredData.get(measuredData.size()-1).getMaxRssi();
+
+        if (maxRssi > -90){
+
+//            if (maxRssi >-40){maxRssi = -40;}
+
+//            double totalDelay = ((maxRssi +40)/-50)*1900 + 100;
+//            continuousBuzzer.setPauseTimeInMs((int)totalDelay);
+
+            continuousBuzzer.setPauseTimeInMs(1000); //1000 is low, 100 is very hi
+            if (maxRssi > -80){continuousBuzzer.setPauseTimeInMs(700);}
+            if (maxRssi > -70){continuousBuzzer.setPauseTimeInMs(400);}
+            if (maxRssi > -60){continuousBuzzer.setPauseTimeInMs(200);}
+            if (maxRssi > -50){continuousBuzzer.setPauseTimeInMs(100);}
+
+            //a mojno play mnogo raz ?
+            continuousBuzzer.setPausePeriodSeconds(0.1);//0.1 sound good vs 1000ms delay
+            continuousBuzzer.play();
+
+        }
+        else{
+            continuousBuzzer.stop();
+        }
+
+//        я предлогаю такой врянт
+//                в меасуред дата добавить функцию гетМакс
+//                и по ней менять частоту пиликанья.
+//        но дело в том, что на разные таги,надо пиликать в разных случаях (честно говоря не понимаю зачем это надо)
+//
+//        получается что мне надо пройтись по всем (в контейнере естественно), найти самого сильного,из тех на кого пиликать надо
+//                и вот его то мощьность и вернуть
+//
+//                у меня тут есть масив со всеми тагами. может быть с ним как то замутить. вообщем на свежую голову надо подумать
+//                а сейчас спать !!
+
 
         if (BuildConfig.DEBUG)Log.i(TAG,"Device Address: " + result.getDevice().getAddress() + " rssi: " + result.getRssi() + "\n");
 
@@ -378,34 +414,34 @@ public class Controller implements
             //prepare data
             extraData += data.toString();
 
-            maxRssi = Math.max(maxRssi,data.getMaxRssi());
+//            maxRssi = Math.max(maxRssi,data.getMaxRssi());
         }
 
-
-        //calc maxRssi with beep time
-        if (maxRssi > -90){
-
-//            if (maxRssi >-40){maxRssi = -40;}
-
-//            double totalDelay = ((maxRssi +40)/-50)*1900 + 100;
-//            continuousBuzzer.setPauseTimeInMs((int)totalDelay);
-
-            continuousBuzzer.setPauseTimeInMs(1000); //1000 is low, 100 is very hi
-            if (maxRssi > -80){continuousBuzzer.setPauseTimeInMs(700);}
-            if (maxRssi > -70){continuousBuzzer.setPauseTimeInMs(400);}
-            if (maxRssi > -60){continuousBuzzer.setPauseTimeInMs(200);}
-            if (maxRssi > -50){continuousBuzzer.setPauseTimeInMs(100);}
-
-
-
-            //a mojno play mnogo raz ?
-            continuousBuzzer.setPausePeriodSeconds(0.1);//0.1 sound good vs 1000ms delay
-            continuousBuzzer.play();
-
-        }
-        else{
-            continuousBuzzer.stop();
-        }
+//
+//        //calc maxRssi with beep time
+//        if (maxRssi > -90){
+//
+////            if (maxRssi >-40){maxRssi = -40;}
+//
+////            double totalDelay = ((maxRssi +40)/-50)*1900 + 100;
+////            continuousBuzzer.setPauseTimeInMs((int)totalDelay);
+//
+//            continuousBuzzer.setPauseTimeInMs(1000); //1000 is low, 100 is very hi
+//            if (maxRssi > -80){continuousBuzzer.setPauseTimeInMs(700);}
+//            if (maxRssi > -70){continuousBuzzer.setPauseTimeInMs(400);}
+//            if (maxRssi > -60){continuousBuzzer.setPauseTimeInMs(200);}
+//            if (maxRssi > -50){continuousBuzzer.setPauseTimeInMs(100);}
+//
+//
+//
+//            //a mojno play mnogo raz ?
+//            continuousBuzzer.setPausePeriodSeconds(0.1);//0.1 sound good vs 1000ms delay
+//            continuousBuzzer.play();
+//
+//        }
+//        else{
+//            continuousBuzzer.stop();
+//        }
 
 
 
