@@ -88,6 +88,9 @@ public class SettingsManager {
     ///////////// getters ////////////////
 
     public TagsContainer getBles(){
+        if(bles == null) {
+            bles = new TagsContainer();
+        }
         return bles;
     }
 
