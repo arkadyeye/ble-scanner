@@ -1,425 +1,434 @@
 {
-  "blemacs": [
+    "blemacs": [
 
-      {
-          "mac":"C0:F5:42:F2:F0:68",
-          "lat": 32.067821,
-          "lon": 34.843545,
-          "alt": 60,
-          "type": 8,
-          "name":" arkady home",
-          "alert_on_db": -90,
-          "alert_off_db": -90
-      },
-      {
-          "mac":"C7:06:A8:52:9C:3E",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 60,
-          "type": 1,
-          "name":" 605 קומה 2 מדרגות צפוניות",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"C9:EF:61:35:4A:E3",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 60,
-          "type": 1,
-          "name":"קומה 2 605",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac": "D8:F4:59:A3:6F:5C",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 60,
-          "type": 1,
-          "name":"505 כניסה דרום מזרחית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"EC:F1:39:B1:8E:0D",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"חצר בסמוך ל APM הצפוני מצפון ל 605",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"F4:91:C5:BC:59:AA",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"507 כניסה דרום מערבית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac": "D6:66:3C:67:0C:A2",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"507 כניסה דרומית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"D8:2D:EE:25:23:60",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"505 כניסה צפונית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"F7:D2:42:AA:27:09",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"מעבר ראשי בין 604 ל 504 על השלט האלק",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"D7:4F:44:2D:CF:1B",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"504 מכונת שתייה בחוץ על ה APM",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"D8:47:AD:D5:C6:65",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"504 כניסה דרומית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"C8:BA:50:4E:36:D0",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"504 יציאה צפונית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"FA:90:15:D2:57:7D",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"604 קומה 1 מרכז",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"F4:2D:8D:C2:88:1F",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"604 קומה 3 מרכז",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"40:BD:32:B7:63:DE",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"502 #2 elevator",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"D1:D9:13:DA:1E:BA",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"604 קומה 2 מרכז",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"E0:14:D0:4F:B2:81",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"604 מעלית דרומית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"E7:64:0A:E4:BE:32",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"604 מעלית צפונית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"CA:FC:B7:9C:42:C1",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"604 כניסה צפון מערבית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"E3:A4:53:26:18:3B",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"604 קומה 0 כניסה צפון מזרחית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"D5:2C:78:A0:75:F4",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"604 קומה 0 מרכז",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"FC:4B:DD:A9:45:91",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"604 כניסה דרומית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"D7:A2:6A:0A:33:BC",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"מעבר דרומי בין 604 ל 605 על עמות תאורה",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"CC:A6:0A:71:9F:12",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"605 קומה -1 מרכז",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"C1:99:3A:54:E1:54",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"605 קומה 0 צפוי יציאה מזרחית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"F6:3D:16:F9:24:28",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"605 קומה 0 יציאה צפון מערבית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"DE:7E:CD:74:C6:C0",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"605 קומה 0 מרכז",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"F2:DD:08:17:6F:88",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"605 קומה 0 דרומי",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"FF:34:94:95:C8:45",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"605 קומה 1 דרומי",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"E6:42:4A:B6:42:9E",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"605 קומה 1 מרכז",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"D5:69:71:4F:71:3E",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"605 קומה 1 צפוני מחוץ למעליות",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"E5:84:F2:B3:42:92",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"605 קומה 3 מחוץ למעליות צפוני",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"DA:95:E3:2C:83:76",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"קומה 3 605 מרכז",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"C8:74:42:98:60:05",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"קומה שלישית 605 דרומי",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"CF:BD:A5:E6:FA:1D",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"605 קומה 2 מדרגות דרומיות",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"DC:5C:F1:73:1C:65",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"605 מעלית צפונית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac": "F0:6B:12:38:FC:F5",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"605 מעלית דרומית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"E0:64:AC:27:CD:80",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"קומה 2 מחוץ למעליות 605",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac": "DD:1E:B2:F2:BD:BE",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"כניסה לחדר של יובל 605 קומה 2",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"DC:6B:E6:77:B8:10",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"קומה 2 מרכז 605",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"30:45:11:5D:A7:E3",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":"קומה 2 605",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      },
-      {
-          "mac":"CA:3B:44:3E:B4:1A",
-          "lat": 32.067910,
-          "lon": 34.843414,
-          "alt": 1,
-          "type": 1,
-          "name":" 605 כניסה צפון מערבית",
-          "alert_on_db": -60,
-          "alert_off_db": -80
-      }
-  ]
+        {
+            "mac":"C0:F5:42:F2:F0:68",
+            "lat": 32.067821,
+            "lon": 34.843545,
+            "alt": 60,
+            "type": 8,
+            "name":"Debug Only: Arkady home",
+            "alert_on_db": -90,
+            "alert_off_db": -90
+        },
+        {
+            "mac":"C9:8D:E2:A8:1E:28",
+            "lat": 32.07091,
+            "lon": 34.84429,
+            "alt": 0,
+            "type": 8,
+            "name":"507,0,SW",
+            "alert_on_db": -90,
+            "alert_off_db": -90
+        },
+        {
+            "mac":"EA:8A:A9:D2:6B:DD",
+            "lat": 32.07029,
+            "lon": 34.84385,
+            "alt": -1,
+            "type": 8,
+            "name":"604,-1,center",
+            "alert_on_db": -90,
+            "alert_off_db": -90
+        },
+        {
+            "mac":"DA:10:D3:47:5B:38",
+            "lat": 32.07029,
+            "lon": 34.84385,
+            "alt": 0,
+            "type": 8,
+            "name":"604,0,center",
+            "alert_on_db": -90,
+            "alert_off_db": -90
+        },
+        {
+            "mac":"C7:06:A8:52:9C:3E",
+            "lat": 32.0704,
+            "lon": 34.84356,
+            "alt": 2,
+            "type": 1,
+            "name":"605,2,N,Stairs",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"C9:EF:61:35:4A:E3",
+            "lat": 32.07026,
+            "lon": 34.84346,
+            "alt": 2,
+            "type": 1,
+            "name":"605,2,S",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac": "D8:F4:59:A3:6F:5C",
+            "lat": 32.07033,
+            "lon": 34.84443,
+            "alt": 0,
+            "type": 1,
+            "name":"505,0,SE,Entrance",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"EC:F1:39:B1:8E:0D",
+            "lat": 32.07068,
+            "lon": 34.84388,
+            "alt": 0,
+            "type": 1,
+            "name":"Yard, north to 604, APM",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"F4:91:C5:BC:59:AA",
+            "lat": 32.07091,
+            "lon": 34.84429,
+            "alt": 0,
+            "type": 1,
+            "name":"507,1,SW,Entrance",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac": "D6:66:3C:67:0C:A2",
+            "lat": 32.07081,
+            "lon": 34.84439,
+            "alt": 0,
+            "type": 1,
+            "name":"507,S,Entrance",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"D8:2D:EE:25:23:60",
+            "lat": 32.07058,
+            "lon": 34.84458,
+            "alt": 0,
+            "type": 1,
+            "name":"505,0,N,Entrance",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"F7:D2:42:AA:27:09",
+            "lat": 32.06995,
+            "lon": 34.84399,
+            "alt": 0,
+            "type": 1,
+            "name":"Yard,604<->504, on the sign.",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"D7:4F:44:2D:CF:1B",
+            "lat": 32.06954,
+            "lon": 34.84437,
+            "alt": 0,
+            "type": 1,
+            "name":"504,0,S,Near the APM",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"D8:47:AD:D5:C6:65",
+            "lat": 32.06952,
+            "lon": 34.84447,
+            "alt": 0,
+            "type": 1,
+            "name":"504,0,S,Entrance",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"C8:BA:50:4E:36:D0",
+            "lat": 32.07004,
+            "lon": 34.84426,
+            "alt": 0,
+            "type": 1,
+            "name":"504,0,N,Entrance",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"FA:90:15:D2:57:7D",
+            "lat": 32.07029,
+            "lon": 34.84385,
+            "alt": 1,
+            "type": 1,
+            "name":"604,1,Center",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"F4:2D:8D:C2:88:1F",
+            "lat": 32.07029,
+            "lon": 34.84385,
+            "alt": 3,
+            "type": 1,
+            "name":"604,3,Center",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"D1:D9:13:DA:1E:BA",
+            "lat": 32.07027,
+            "lon": 34.8435,
+            "alt": 2,
+            "type": 1,
+            "name":"604,2,Center",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"E0:14:D0:4F:B2:81",
+            "lat": 32.07042,
+            "lon": 34.84353,
+            "alt": 0,
+            "type": 2,
+            "name":"604,Elevator, S",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"E7:64:0A:E4:BE:32",
+            "lat": 32.07041,
+            "lon": 34.84388,
+            "alt": 0,
+            "type": 2,
+            "name":"604,Elevator, N",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"CA:FC:B7:9C:42:C1",
+            "lat": 32.067910,
+            "lon": 34.843414,
+            "alt": 0,
+            "type": 1,
+            "name":"604 כניסה צפון מערבית",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"E3:A4:53:26:18:3B",
+            "lat": 32.0704,
+            "lon": 34.84371,
+            "alt": 0,
+            "type": 1,
+            "name":"604,0,NW,Entrance",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"D5:2C:78:A0:75:F4",
+            "lat": 32.07029,
+            "lon": 34.8435,
+            "alt": 0,
+            "type": 1,
+            "name":"604,0,Center",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"FC:4B:DD:A9:45:91",
+            "lat": 32.0702,
+            "lon": 34.84371,
+            "alt": 0,
+            "type": 1,
+            "name":"604,0,SW,Entrance",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"D7:A2:6A:0A:33:BC",
+            "lat": 32.07021,
+            "lon": 34.84366,
+            "alt": 0,
+            "type": 0,
+            "name":"604<->605,S,on the light",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"CC:A6:0A:71:9F:12",
+            "lat": 32.07034,
+            "lon": 34.84352,
+            "alt": -1,
+            "type": 1,
+            "name":"605,-1,Center",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"C1:99:3A:54:E1:54",
+            "lat": 32.0704,
+            "lon": 34.84366,
+            "alt": 0,
+            "type": 1,
+            "name":"605,0,SE,Entrance",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"F6:3D:16:F9:24:28",
+            "lat": 32.07044,
+            "lon": 34.84349,
+            "alt": 0,
+            "type": 1,
+            "name":"605,0,NW,Entrance",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"DE:7E:CD:74:C6:C0",
+            "lat": 32.07029,
+            "lon": 34.84385,
+            "alt": 0,
+            "type": 1,
+            "name":"604,0,Center",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"F2:DD:08:17:6F:88",
+            "lat": 32.07024,
+            "lon": 34.84352,
+            "alt": 0,
+            "type": 1,
+            "name":"605,0,SE,Entrance",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"FF:34:94:95:C8:45",
+            "lat": 32.07026,
+            "lon": 34.84347,
+            "alt": 1,
+            "type": 1,
+            "name":"605,1,S",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"E6:42:4A:B6:42:9E",
+            "lat": 32.07033,
+            "lon": 34.84352,
+            "alt": 1,
+            "type": 1,
+            "name":"605,1,Center",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"D5:69:71:4F:71:3E",
+            "lat": 32.07045,
+            "lon": 34.84355,
+            "alt": 1,
+            "type": 1,
+            "name":"605,1,N,near the elevators",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"E5:84:F2:B3:42:92",
+            "lat": 32.07045,
+            "lon": 34.84355,
+            "alt": 3,
+            "type": 1,
+            "name":"605,3,N,Near the Elevators",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"DA:95:E3:2C:83:76",
+            "lat": 32.07033,
+            "lon": 34.84352,
+            "alt": 3,
+            "type": 1,
+            "name":"605,3,Center",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"C8:74:42:98:60:05",
+            "lat": 32.07025,
+            "lon": 34.84344,
+            "alt": 3,
+            "type": 1,
+            "name":"605,3,S",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"CF:BD:A5:E6:FA:1D",
+            "lat": 32.07027,
+            "lon": 34.8435,
+            "alt": 2,
+            "type": 1,
+            "name":"605,2,S,Stairs",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"DC:5C:F1:73:1C:65",
+            "lat": 32.07042,
+            "lon": 34.84353,
+            "alt": 0,
+            "type": 2,
+            "name":"605,N,Elevator",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac": "F0:6B:12:38:FC:F5",
+            "lat": 32.07041,
+            "lon": 34.84354,
+            "alt": 0,
+            "type": 2,
+            "name":"605,Elevator,S",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"E0:64:AC:27:CD:80",
+            "lat": 32.07045,
+            "lon": 34.84355,
+            "alt": 2,
+            "type": 1,
+            "name":"605,2,N,Near the elevator",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac": "DD:1E:B2:F2:BD:BE",
+            "lat": 32.07031,
+            "lon": 34.84352,
+            "alt": 2,
+            "type": 1,
+            "name":"605,2,Yuval's room",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"DC:6B:E6:77:B8:10",
+            "lat": 32.07033,
+            "lon": 34.84352,
+            "alt": 2,
+            "type": 1,
+            "name":"605,2,Center",
+            "alert_on_db": -60,
+            "alert_off_db": -80
+        },
+        {
+            "mac":"CA:3B:44:3E:B4:1A",
+            "lat": 32.07044,
+            "lon": 34.84348,
+            "alt": 0,
+            "type": 1,
+            "name":"605,0,NW,Entrance",
+            "alert_on_db": -60,
+            "alert_off_db": -80   }
+    ]
 }
