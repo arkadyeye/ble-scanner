@@ -94,6 +94,7 @@ public class SettingsManager {
         return bles;
     }
 
+
     ///////////// private functions ///////////////////
 
     /**
